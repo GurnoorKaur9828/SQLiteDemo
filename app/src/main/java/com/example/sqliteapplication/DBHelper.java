@@ -34,7 +34,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("create Table Userdetails(name Text primary key, contact Text, dob Text)");
+        db.execSQL("create Table Userdetails(name Text primary key, id Text, email Text, marks Text)");
 
     }
 

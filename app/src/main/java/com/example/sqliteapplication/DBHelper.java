@@ -51,8 +51,9 @@ public class DBHelper extends SQLiteOpenHelper {
         ContentValues contentValue = new ContentValues(); // keep things in pair
         // (Coloum, value)
         contentValue.put("name",name);
-        contentValue.put("contact", contact);
-        contentValue.put("dob", dob);
+        contentValue.put("id", id);
+        contentValue.put("email", email);
+        contentValue.put("marks", marks);
         long result = DB.insert("Userdetails",null,contentValue);
 
         return result != -1;
@@ -62,8 +63,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public Boolean updateuserdata(String name, String contact, String dob){
         SQLiteDatabase DB = this.getWritableDatabase();
         ContentValues contentValue = new ContentValues(); // keep things in pair
-        contentValue.put("contact", contact);
-        contentValue.put("dob", dob);
+        contentValue.put("id", id);
+        contentValue.put("email", email);
+        contentValue.put("marks", marks);
         Cursor cursor = DB.rawQuery("Select * from Userdetails where name = ?", new String[]{name});
 
         if(cursor.getCount()>0){

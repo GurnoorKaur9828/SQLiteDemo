@@ -20,14 +20,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        name = findViewById(R.id.name);
-        contact = findViewById(R.id.contact);
-        dob = findViewById(R.id.dob);
+        PrecreateDB.copyDB(context: this);
+        databaseAdapter = new DatabaseAdapter(context: this);
+       /* name = findViewById(R.id.name);
+        id = findViewById(R.id.id);
+        email= findViewById(R.id.email);
+        marks= findViewById(R.id.marks);
         insert = findViewById(R.id.btnInsert);
         update = findViewById(R.id.btnUpdate);
-        delete = findViewById(R.id.btnDelete);
-        view = findViewById(R.id.btnView);
-
+        delete = findViewById(R.id.btnDelete);*/
+        listView IvContact = findViewById(R.id.lvContact);
+        SimpleCursorAdapter simpleCursorAdapter = databaseAdapter.populateListViewFromDB();
+        IvContact.setAdapter(simpleCursorAdapter);
+        
         DB = new DBHelper(this);
 
         insert.setOnClickListener(new View.OnClickListener() {
@@ -35,10 +40,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String nameTxt = name.getText().toString();
-                String contactTxt = contact.getText().toString();
-                String dobTxt = dob.getText().toString();
+                String idTxt = id.getText().toString();
+                String emailTxt = email.getText().toString();
+                String marksTxt = marks.getText().toString();
 
-                Boolean checkinsertData = DB.insertuserdata(nameTxt,contactTxt,dobTxt);
+                Boolean checkinsertData = DB.insertuserdata(nameTxt,idTxt,emailTxt, marksTxt);
 
                 if(checkinsertData){
                     Toast.makeText(MainActivity.this, "New Entry Inserted", Toast.LENGTH_SHORT).show();
@@ -55,10 +61,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 String nameTxt = name.getText().toString();
-                String contactTxt = contact.getText().toString();
-                String dobTxt = dob.getText().toString();
+                String idTxt = id.getText().toString();
+                String emailTxt = email.getText().toString();
+                String marksTxt = marks.getText().toString();
 
-                Boolean checkupdate = DB.updateuserdata(nameTxt,contactTxt,dobTxt);
+                Boolean checkupdate = DB.updateuserdata(nameTxt,idTxt,emailTxt,marksTxt);
 
                 if(checkupdate){
                     Toast.makeText(MainActivity.this, "Entry Updated", Toast.LENGTH_SHORT).show();
@@ -105,8 +112,9 @@ public class MainActivity extends AppCompatActivity {
                     StringBuffer buffer = new StringBuffer();
                     while(res.moveToNext()){
                         buffer.append("Name: "+res.getString(0)+"\n");
-                        buffer.append("Content: "+res.getString(1)+"\n");
-                        buffer.append("Date of Birth: "+res.getString(2)+"\n\n\n");
+                        buffer.append("id: "+res.getString(1)+"\n");
+                        buffer.append("email: "+res.getString(2)+"\n\n\n");
+                        buffer.append("marks: "+res.getString(2)+"\n\n\n");
                     }
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
